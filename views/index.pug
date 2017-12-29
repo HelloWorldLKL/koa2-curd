@@ -1,0 +1,115 @@
+extends layout
+block content
+  h1 Koa2 中的 CURD
+  form(action="/", method="get")
+    .input-group
+      input.form-control(
+        type='text'
+        placeholder='搜索姓名'
+        name='sName'
+      )
+      span.input-group-btn
+        input.btn.btn-secondary(type='submit' value='Go')
+  table.table.a
+    tr
+      th 学号
+      th 姓名
+      th 性别
+      th 年龄
+      th 系部
+      th 操作
+    case data.length
+      when 0
+        tr
+          td(colspan='6')
+            h3 没有查询到数据
+      default
+        each stu in data
+          tr
+            td= stu.sno
+            td= stu.sname
+            td= stu.ssex
+            td= stu.sage
+            td= stu.sdept
+            td
+              form(action="/deleteStudent", method="post")
+                input(type="hidden" value=`${stu.sno}` name='sNO' )
+                button.btn.btn-danger(
+                  type='submit'
+                ) Delete
+    tr
+      td(colspan='6')
+        button.btn.btn-primary.btn-lg.btn-block(
+          data-toggle='modal'
+          data-target='#addStudent'
+        ) 新增学生
+  .modal.fade#addStudent(
+    tabindex='-1'
+    role='dialog'
+    aria-labelledby='myModalLabel'
+    aria-hidden='true'
+  )
+    .modal-dialog(role='document')
+      .modal-content
+        form(action="/addStudent", method="post")
+          .modal-header
+            h4.modal-title#myModalLabel 新增学生
+            button.close(
+              type='button'
+              data-dismiss="modal"
+              aria-label="Close"
+            )
+              span(aria-hidden="true") &times;
+              span.sr-only Close
+          .modal-body
+            fieldset.form-group
+              label(for='sname') 姓名
+              input.form-control#sname(
+                type='text'
+                name='sName'
+                placeholder="请输入姓名"
+              )
+            fieldset.form-group
+              label(for='ssex') 性别
+              select.form-control#ssex(
+                type='text'
+                name='sSex'
+                placeholder="请选择性别"
+              )
+                option 男
+                option 女
+            fieldset.form-group
+              label(for='sdept') 系部
+              select.form-control#sdept(
+                type='text'
+                name='sDept'
+                placeholder="请选择系部"
+              )
+                option CS
+                option MA
+                option IS
+            fieldset.form-group
+              label(for='sage') 年龄
+              input.form-control#sage(
+                type='number'
+                name='sAge'
+                placeholder="请输入年龄"
+              )
+          .modal-footer
+            button.btn.btn-secondary(
+              type='button'
+              data-dismiss="modal"
+            ) 取消
+            button.btn.btn-primary(
+              type='submit'
+            ) 提交
+//- <form>
+//-   <fieldset class="form-group">
+//-     <label for="formGroupExampleInput">Example label</label>
+//-     <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Example input">
+//-   </fieldset>
+//-   <fieldset class="form-group">
+//-     <label for="formGroupExampleInput2">Another label</label>
+//-     <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Another input">
+//-   </fieldset>
+//- </form>
